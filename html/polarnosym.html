@@ -1,0 +1,522 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>polarnosym</title><meta name="generator" content="MATLAB 9.14"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-08-26"><meta name="DC.source" content="polarnosym.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Clearing variables and close windoes and clearing command window</a></li><li><a href="#3">File Name</a></li><li><a href="#4">variables definition:</a></li><li><a href="#5">Here we can make fault:</a></li><li><a href="#6">Magnetic Fields definition:</a></li><li><a href="#7">Mfields in polar coordinates:</a></li><li><a href="#8">Avaluating Bnet(PBn) vector:</a></li><li><a href="#9">Wave shapes and geometrical positions</a></li><li><a href="#10">Pre-allocating MField Vectors</a></li><li><a href="#11">Somthing for creating Animation</a></li><li><a href="#13">Openning a Figure</a></li><li><a href="#14">Animated Lines</a></li><li><a href="#18">Movie</a></li><li><a href="#19">These following codes are written for exporting plots to a .gif (animation) file</a></li><li><a href="#21">The End... ...!?</a></li></ul></div><h2 id="1">Clearing variables and close windoes and clearing command window</h2><pre class="codeinput">close <span class="string">all</span>
+clear
+clc
+
+tic;
+</pre><pre class="codeinput"><span class="comment">%opengl hardware;</span>
+</pre><h2 id="3">File Name</h2><pre class="codeinput">filename = <span class="string">'polarnosym41.gif'</span>;       <span class="comment">% Specify the output file name</span>
+
+gifc = 0 ;                                    <span class="comment">% 1==yes or 0==no ==&gt; creating .gif animation file</span>
+</pre><h2 id="4">variables definition:</h2><pre class="codeinput">j=1i;                      <span class="comment">%j=[0+1i]</span>
+f=50;                      <span class="comment">%frequency</span>
+P=1/f;                     <span class="comment">%Period</span>
+n=100;                      <span class="comment">%Number of time steps</span>
+t=linspace(0,2*P,n);       <span class="comment">%time</span>
+    <span class="comment">%w=2*pi*f                  %angular frequency(Omega) (rad/s)</span>
+Bm=1;                      <span class="comment">%amplitude of Mfield produced by each phase</span>
+m=round(sqrt(n))+1;
+wtd=360*f*t;               <span class="comment">%[omega]*t (degree)</span>
+wtr=2*pi*f*t;              <span class="comment">%[omega]*t (radian)</span>
+</pre><h2 id="5">Here we can make fault:</h2><pre class="codeinput">R =  1  +  0.10*sin(1.*wtr)   -  0.05 ;                  <span class="comment">%Br=R*Bm*sin(w*t);</span>
+S =  1  +  0.19*sin(3.*wtr)   -  0.20 ;                  <span class="comment">%Bs=S*Bm*sin(w*t-2*pi/3);</span>
+T =  1  +  0.10*sin(2.*wtr)   -  0.20 ;                  <span class="comment">%Bt=T*Bm*sin(w*t+2*pi/3);</span>
+                        <span class="comment">%%A=1.0 ; B=1.0 ;                             %Bnet :: [theta,Bn]=cart2pol(A*Nx,B*Ny);</span>
+  <span class="comment">%   R=1;S=1;T=1;                             %</span>
+</pre><h2 id="6">Magnetic Fields definition:</h2><pre class="codeinput">Br=(Bm*R).*sin(wtr)          ;<span class="comment">% +     0.10*(Bm*R).*sin(3*wtr);             %Mfield produced by   phase  'R'  color=Black  +   3rd Harmonic</span>
+Bs=(Bm*S).*sin(wtr-2*pi/3)   ;<span class="comment">% +     0.15*(Bm*S).*sin(3*(wtr-2*pi/3));    %Mfield produced by   phase  'S'  color=Blue   +   3rd Harmonic</span>
+Bt=(Bm*T).*sin(wtr+2*pi/3)   ;<span class="comment">% +     0.12*(Bm*T).*sin(3*(wtr+2*pi/3));    %Mfield produced by   phase  'T'  color=Pink   +   3rd Harmonic</span>
+</pre><h2 id="7">Mfields in polar coordinates:</h2><pre class="codeinput">RP=complex(Br,0);
+SP=Bs.*exp(j.*(-2*pi/3));
+TP=Bt.*exp(j.*(2*pi/3));
+</pre><h2 id="8">Avaluating Bnet(PBn) vector:</h2><pre class="codeinput">PBn=RP+SP+TP;
+theta=angle(PBn);
+Bn=abs(PBn);
+</pre><h2 id="9">Wave shapes and geometrical positions</h2><pre class="codeinput">c1=Bm.*exp(j.*wtr);
+c2=1.5*c1;
+ir=(Bm).*sin(wtr);              <span class="comment">%Ideal wave form of R</span>
+is=(Bm).*sin(wtr-2*pi/3);       <span class="comment">%Ideal wave form of S</span>
+it=(Bm).*sin(wtr+2*pi/3);       <span class="comment">%Ideal wave form of T</span>
+in=t-(-1.5+t);
+iz=zeros(1,n);
+</pre><h2 id="10">Pre-allocating MField Vectors</h2><pre class="codeinput">a(n)=line;                  <span class="comment">%a,b,c are M.field Vectors</span>
+<span class="keyword">for</span> ii=1:n
+    a(ii)=line;
+<span class="keyword">end</span>
+b=a;
+c=b;
+d=c;
+close;
+</pre><h2 id="11">Somthing for creating Animation</h2><pre class="codeinput"><span class="keyword">if</span> (gifc == 1)
+    im=cell(n,1);
+    frame=struct(<span class="string">'cdata'</span>,n,<span class="string">'colormap'</span>,3);
+<span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="comment">%   rd=zeros(1,n);</span>
+<span class="comment">%   sd=rd;</span>
+<span class="comment">%   td=rd;</span>
+<span class="comment">%   tt=t-(t-1.5);</span>
+</pre><h2 id="13">Openning a Figure</h2><pre class="codeinput">figure(<span class="string">'Renderer'</span>,<span class="string">'OpenGL'</span>,<span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'Name'</span>,<span class="string">'Magnetic Fields in a 3phase-Stator By H.Najafi'</span>,<span class="string">'Units'</span>,<span class="string">'centimeters'</span>,<span class="string">'Position'</span>,[0.25 2 40 18]);
+</pre><img vspace="5" hspace="5" src="polarnosym_01.gif" width="950" alt=""> <h2 id="14">Animated Lines</h2><pre class="codeinput">subplot(3,4,[3,4]);
+plot(t,iz,<span class="string">'k'</span>,t,ir,<span class="string">'g'</span>);
+title(<span class="string">'~Current of each phase (R,S,T) per unit'</span>);
+ral=animatedline(<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,1.5,<span class="string">'MaximumNumPoints'</span>,n);
+ylim([-1.5 1.5]);xlim([0 max(t)]);
+grid <span class="string">on</span>;
+grid <span class="string">minor</span>;
+ax = gca;
+ax.YLabel.String = <span class="string">'R'</span>;
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight=<span class="string">'bold'</span>;
+
+subplot(3,4,[7,8]);
+plot(t,iz,<span class="string">'k'</span>,t,is,<span class="string">'g'</span>);
+sal=animatedline(<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,1.5,<span class="string">'MaximumNumPoints'</span>,n);
+ylim([-1.5 1.5]);xlim([0 max(t)]);
+grid <span class="string">on</span>;
+grid <span class="string">minor</span>;
+ax = gca;
+ax.YLabel.String = <span class="string">'S'</span>;
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight=<span class="string">'bold'</span>;
+
+subplot(3,4,[11,12]);
+plot(t,iz,<span class="string">'k'</span>,t,it,<span class="string">'g'</span>);
+tal=animatedline(<span class="string">'Color'</span>,<span class="string">'m'</span>,<span class="string">'LineWidth'</span>,1.5,<span class="string">'MaximumNumPoints'</span>,n);
+ylim([-1.5 1.5]);xlim([0 max(t)]);
+grid <span class="string">on</span>;
+grid <span class="string">minor</span>;
+ax = gca;
+ax.YLabel.String = <span class="string">'T'</span>;
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight=<span class="string">'bold'</span>;
+ax.XLabel.String = <span class="string">'Time'</span>;
+ax.XLabel.FontSize = 10;
+ax.XLabel.FontWeight=<span class="string">'bold'</span>;
+
+subplot(3,4,[9,10]);
+plot(wtd,in,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,0.75);
+title(<span class="string">'Hamed Najafipour (S.R.T.T.U. &lt;1396&gt;)'</span>);
+nal=animatedline(<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,1.5,<span class="string">'MaximumNumPoints'</span>,n);
+               <span class="comment">%ylim([-2 2]);</span>
+xlim([0 max(wtd)]);
+grid <span class="string">on</span>;
+grid <span class="string">minor</span>;
+ax = gca;
+ax.YLabel.String  = <span class="string">'Amplitude of Bnet'</span>;
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight =<span class="string">'bold'</span>;
+ax.XTickMode = <span class="string">'manual'</span>;
+ax.XTick = linspace(0,max(wtd),13);
+ax.XLabel.String = <span class="string">'Position of Bnet(0-360 Degree)'</span>;
+ax.XLabel.FontSize = 10;
+ax.XLabel.FontWeight=<span class="string">'bold'</span>;
+
+subplot(3,4,[1,2,5,6]);
+polarplot(PBn,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2);
+title(<span class="string">'Magnetic Fields'</span>);
+ax = gca;
+ax.ThetaAxisUnits = <span class="string">'degrees'</span>;
+ax.ThetaTick = linspace(0,360,13);
+ax.RLim = [0 2];
+grid <span class="string">on</span>;
+grid <span class="string">minor</span>;
+hold <span class="string">on</span>;
+
+polarplot(c1 ,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,1);
+polarplot(c2 ,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,1);
+polarplot(PBn,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,1);
+</pre><img vspace="5" hspace="5" src="polarnosym_02.png" alt=""> <pre class="codeinput"><span class="keyword">for</span> ii=1:n
+    a(ii)=polarplot([0 theta(ii)], [0 Bn(ii)],<span class="string">'r'</span>,<span class="string">'Marker'</span>,<span class="string">'o'</span>,<span class="string">'LineWidth'</span>,1.5,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+    b(ii)=polarplot([0        0] , [0 Br(ii)],<span class="string">'k'</span>,<span class="string">'Marker'</span>,<span class="string">'o'</span>,<span class="string">'LineWidth'</span>,1.0,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+    c(ii)=polarplot([0  -2*pi/3] , [0 Bs(ii)],<span class="string">'b'</span>,<span class="string">'Marker'</span>,<span class="string">'o'</span>,<span class="string">'LineWidth'</span>,1.0,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+    d(ii)=polarplot([0   2*pi/3] , [0 Bt(ii)],<span class="string">'m'</span>,<span class="string">'Marker'</span>,<span class="string">'o'</span>,<span class="string">'LineWidth'</span>,1.0,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="polarnosym_03.png" alt=""> <pre class="codeinput">toc;tic;
+</pre><pre class="codeoutput">Elapsed time is 2.274150 seconds.
+</pre><pre class="codeinput"><span class="keyword">for</span> ii=1:n
+
+    a(ii).Visible=<span class="string">'on'</span>;
+    b(ii).Visible=<span class="string">'on'</span>;
+    c(ii).Visible=<span class="string">'on'</span>;
+    d(ii).Visible=<span class="string">'on'</span>;
+
+    subplot(3,4,[3,4]);
+    addpoints(ral,t(ii),Br(ii));
+    <span class="comment">%drawnow limitrate ;</span>
+
+    subplot(3,4,[7,8]);
+    addpoints(sal,t(ii),Bs(ii));
+    <span class="comment">%drawnow limitrate ;</span>
+
+    subplot(3,4,[11,12]);
+    addpoints(tal,t(ii),Bt(ii));
+   <span class="comment">% drawnow limitrate ;</span>
+
+    subplot(3,4,[9,10]);
+    addpoints(nal,wtd(ii),Bn(ii));
+  <span class="comment">%  drawnow limitrate ;</span>
+
+    <span class="keyword">if</span> (gifc == 1)
+
+        frame(ii) = getframe(1);
+        im{ii} = frame2im(frame(ii));
+    <span class="keyword">else</span>
+        pause(0.04);
+    <span class="keyword">end</span>
+
+
+
+
+    <span class="comment">%drawnow limitrate;</span>
+
+    a(ii).Visible=<span class="string">'off'</span>;
+    b(ii).Visible=<span class="string">'off'</span>;
+    c(ii).Visible=<span class="string">'off'</span>;
+    d(ii).Visible=<span class="string">'off'</span>;
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="polarnosym_04.png" alt=""> <h2 id="18">Movie</h2><pre>    close;
+    fig=figure('NumberTitle','off','Name',['Magnetic Fields in the Stator',date],'Units','centimeters','Position',[0.25 2 40 18]);
+   movie(fig,frame,2);</pre><h2 id="19">These following codes are written for exporting plots to a .gif (animation) file</h2><pre class="codeinput"><span class="keyword">if</span> (gifc == 1)
+    <span class="comment">%close;</span>
+<span class="comment">%     figure;</span>
+<span class="comment">%     for idx = 1:n</span>
+<span class="comment">%         subplot(m,m,idx)</span>
+<span class="comment">%         imshow(im{idx});</span>
+<span class="comment">%     end</span>
+
+    <span class="keyword">for</span> idx = 1:n
+        [A,map] = rgb2ind(im{idx},256);
+        <span class="keyword">if</span> idx == 1
+            imwrite(A,map,filename,<span class="string">'gif'</span>,<span class="string">'LoopCount'</span>,   Inf  ,<span class="string">'DelayTime'</span>,0);
+        <span class="keyword">else</span>
+            imwrite(A,map,filename,<span class="string">'gif'</span>,<span class="string">'WriteMode'</span>,<span class="string">'append'</span>,<span class="string">'DelayTime'</span>,0);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><pre class="codeinput">close <span class="string">all</span>;
+toc;
+</pre><pre class="codeoutput">Elapsed time is 5.467189 seconds.
+</pre><h2 id="21">The End... ...!?</h2><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2023a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Clearing variables and close windoes and clearing command window
+
+close all
+clear
+clc
+
+tic;
+%% 
+
+%opengl hardware;
+
+%% File Name
+
+filename = 'polarnosym41.gif';       % Specify the output file name
+
+gifc = 0 ;                                    % 1==yes or 0==no ==> creating .gif animation file
+
+%% variables definition:
+
+j=1i;                      %j=[0+1i]
+f=50;                      %frequency
+P=1/f;                     %Period
+n=100;                      %Number of time steps
+t=linspace(0,2*P,n);       %time
+    %w=2*pi*f                  %angular frequency(Omega) (rad/s)
+Bm=1;                      %amplitude of Mfield produced by each phase
+m=round(sqrt(n))+1;
+wtd=360*f*t;               %[omega]*t (degree)
+wtr=2*pi*f*t;              %[omega]*t (radian)
+
+%% Here we can make fault:
+
+R =  1  +  0.10*sin(1.*wtr)   -  0.05 ;                  %Br=R*Bm*sin(w*t);
+S =  1  +  0.19*sin(3.*wtr)   -  0.20 ;                  %Bs=S*Bm*sin(w*t-2*pi/3);
+T =  1  +  0.10*sin(2.*wtr)   -  0.20 ;                  %Bt=T*Bm*sin(w*t+2*pi/3);
+                        %%A=1.0 ; B=1.0 ;                             %Bnet :: [theta,Bn]=cart2pol(A*Nx,B*Ny);
+  %   R=1;S=1;T=1;                             %
+
+%% Magnetic Fields definition:
+
+Br=(Bm*R).*sin(wtr)          ;% +     0.10*(Bm*R).*sin(3*wtr);             %Mfield produced by   phase  'R'  color=Black  +   3rd Harmonic
+Bs=(Bm*S).*sin(wtr-2*pi/3)   ;% +     0.15*(Bm*S).*sin(3*(wtr-2*pi/3));    %Mfield produced by   phase  'S'  color=Blue   +   3rd Harmonic
+Bt=(Bm*T).*sin(wtr+2*pi/3)   ;% +     0.12*(Bm*T).*sin(3*(wtr+2*pi/3));    %Mfield produced by   phase  'T'  color=Pink   +   3rd Harmonic
+
+%% Mfields in polar coordinates:
+
+RP=complex(Br,0);           
+SP=Bs.*exp(j.*(-2*pi/3));              
+TP=Bt.*exp(j.*(2*pi/3));           
+
+%% Avaluating Bnet(PBn) vector:
+
+PBn=RP+SP+TP;
+theta=angle(PBn);
+Bn=abs(PBn);
+
+%% Wave shapes and geometrical positions
+
+c1=Bm.*exp(j.*wtr);
+c2=1.5*c1;
+ir=(Bm).*sin(wtr);              %Ideal wave form of R
+is=(Bm).*sin(wtr-2*pi/3);       %Ideal wave form of S
+it=(Bm).*sin(wtr+2*pi/3);       %Ideal wave form of T
+in=t-(-1.5+t);
+iz=zeros(1,n);
+
+%% Pre-allocating MField Vectors
+a(n)=line;                  %a,b,c are M.field Vectors
+for ii=1:n      
+    a(ii)=line;  
+end
+b=a;
+c=b;
+d=c;
+close;
+%% Somthing for creating Animation
+
+if (gifc == 1)    
+    im=cell(n,1);    
+    frame=struct('cdata',n,'colormap',3);
+end
+
+%%
+
+%   rd=zeros(1,n);
+%   sd=rd;
+%   td=rd;
+%   tt=t-(t-1.5);
+
+%% Openning a Figure
+
+figure('Renderer','OpenGL','NumberTitle','off','Name','Magnetic Fields in a 3phase-Stator By H.Najafi','Units','centimeters','Position',[0.25 2 40 18]);
+
+%% Animated Lines
+
+subplot(3,4,[3,4]);
+plot(t,iz,'k',t,ir,'g');
+title('~Current of each phase (R,S,T) per unit');
+ral=animatedline('Color','k','LineWidth',1.5,'MaximumNumPoints',n);
+ylim([-1.5 1.5]);xlim([0 max(t)]);
+grid on;
+grid minor;
+ax = gca;
+ax.YLabel.String = 'R';
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight='bold';
+
+subplot(3,4,[7,8]);
+plot(t,iz,'k',t,is,'g');
+sal=animatedline('Color','b','LineWidth',1.5,'MaximumNumPoints',n);
+ylim([-1.5 1.5]);xlim([0 max(t)]);
+grid on;
+grid minor;
+ax = gca;
+ax.YLabel.String = 'S';
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight='bold';
+
+subplot(3,4,[11,12]);
+plot(t,iz,'k',t,it,'g');
+tal=animatedline('Color','m','LineWidth',1.5,'MaximumNumPoints',n);
+ylim([-1.5 1.5]);xlim([0 max(t)]);
+grid on;
+grid minor;
+ax = gca;
+ax.YLabel.String = 'T';
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight='bold';
+ax.XLabel.String = 'Time';
+ax.XLabel.FontSize = 10;
+ax.XLabel.FontWeight='bold';
+
+subplot(3,4,[9,10]);
+plot(wtd,in,'g','LineWidth',0.75);
+title('Hamed Najafipour (S.R.T.T.U. <1396>)');
+nal=animatedline('Color','r','LineWidth',1.5,'MaximumNumPoints',n);
+               %ylim([-2 2]);
+xlim([0 max(wtd)]);
+grid on;
+grid minor;
+ax = gca;
+ax.YLabel.String  = 'Amplitude of Bnet';
+ax.YLabel.FontSize = 10;
+ax.YLabel.FontWeight ='bold';
+ax.XTickMode = 'manual';
+ax.XTick = linspace(0,max(wtd),13);
+ax.XLabel.String = 'Position of Bnet(0-360 Degree)';
+ax.XLabel.FontSize = 10;
+ax.XLabel.FontWeight='bold';
+
+subplot(3,4,[1,2,5,6]);
+polarplot(PBn,'r','LineWidth',2);
+title('Magnetic Fields');
+ax = gca;
+ax.ThetaAxisUnits = 'degrees';
+ax.ThetaTick = linspace(0,360,13);
+ax.RLim = [0 2];
+grid on;
+grid minor;
+hold on;
+
+polarplot(c1 ,'g','LineWidth',1);
+polarplot(c2 ,'g','LineWidth',1);
+polarplot(PBn,'r','LineWidth',1);
+
+%%
+
+for ii=1:n        
+    a(ii)=polarplot([0 theta(ii)], [0 Bn(ii)],'r','Marker','o','LineWidth',1.5,'Visible','off');    
+    b(ii)=polarplot([0        0] , [0 Br(ii)],'k','Marker','o','LineWidth',1.0,'Visible','off');
+    c(ii)=polarplot([0  -2*pi/3] , [0 Bs(ii)],'b','Marker','o','LineWidth',1.0,'Visible','off');
+    d(ii)=polarplot([0   2*pi/3] , [0 Bt(ii)],'m','Marker','o','LineWidth',1.0,'Visible','off');
+end
+
+%%
+toc;tic;
+%%
+
+for ii=1:n
+    
+    a(ii).Visible='on';
+    b(ii).Visible='on';
+    c(ii).Visible='on';
+    d(ii).Visible='on';
+    
+    subplot(3,4,[3,4]);
+    addpoints(ral,t(ii),Br(ii));
+    %drawnow limitrate ;
+ 
+    subplot(3,4,[7,8]);
+    addpoints(sal,t(ii),Bs(ii));
+    %drawnow limitrate ;    
+    
+    subplot(3,4,[11,12]);
+    addpoints(tal,t(ii),Bt(ii));
+   % drawnow limitrate ;
+
+    subplot(3,4,[9,10]);
+    addpoints(nal,wtd(ii),Bn(ii));
+  %  drawnow limitrate ;
+
+    if (gifc == 1)
+        
+        frame(ii) = getframe(1);
+        im{ii} = frame2im(frame(ii));
+    else
+        pause(0.04);
+    end
+    
+
+    
+    
+    %drawnow limitrate;
+    
+    a(ii).Visible='off';
+    b(ii).Visible='off';
+    c(ii).Visible='off';
+    d(ii).Visible='off';
+    
+end
+%% Movie
+%      close;
+%      fig=figure('NumberTitle','off','Name',['Magnetic Fields in the Stator',date],'Units','centimeters','Position',[0.25 2 40 18]);
+%     movie(fig,frame,2);
+%% These following codes are written for exporting plots to a .gif (animation) file
+
+if (gifc == 1)
+    %close;
+%     figure;
+%     for idx = 1:n
+%         subplot(m,m,idx)
+%         imshow(im{idx});
+%     end    
+    
+    for idx = 1:n
+        [A,map] = rgb2ind(im{idx},256);
+        if idx == 1
+            imwrite(A,map,filename,'gif','LoopCount',   Inf  ,'DelayTime',0);
+        else
+            imwrite(A,map,filename,'gif','WriteMode','append','DelayTime',0);
+        end
+    end
+    
+end
+%%
+close all;
+toc;
+
+%% The End... ...!?
+
+##### SOURCE END #####
+--></body></html>
